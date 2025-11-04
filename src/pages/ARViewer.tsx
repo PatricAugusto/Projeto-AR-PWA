@@ -1,28 +1,30 @@
 import React from 'react';
 import { useParams } from 'react-router-dom';
 import styled from 'styled-components';
-
+import ThreeScene from '../components/ThreeScene'; 
 const ARContainer = styled.div`
-  height: 80vh; /* Altura que será preenchida pela cena 3D/AR */
-  background-color: #e0e0ff;
-  display: flex;
-  align-items: center;
-  justify-content: center;
+  height: 80vh; 
   border-radius: 8px;
 `;
 
 const ARViewer: React.FC = () => {
   const { productId } = useParams<{ productId: string }>();
 
+  const modelMap: { [key: string]: string } = {
+    '1': 'chair.glb',
+    '2': 'plant.glb',
+    '3': 'sofa.glb',
+  };
+  
+  const modelToLoad = modelMap[productId || ''] || 'default.glb';
+
   return (
     <div>
-      <h2>Visualizador de Realidade Aumentada</h2>
-      <p>Você selecionou o Produto ID: **{productId}**</p>
+      <h2>Visualizador 3D do Produto</h2>
+      <p>Produto ID: **{productId}** | Modelo: **{modelToLoad}**</p>
       
       <ARContainer>
-        <p style={{ color: '#555' }}>
-          **<span role="img" aria-label="Camera">📸</span> Em breve: Integração WebXR/Three.js**
-        </p>
+        <ThreeScene modelName={modelToLoad} />
       </ARContainer>
 
       <div style={{ marginTop: '20px' }}>
